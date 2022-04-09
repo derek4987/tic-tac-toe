@@ -27,7 +27,6 @@
 
 .square > div {
     display: table-cell;
-    padding-bottom: 7px;
     text-align: center;
     vertical-align: middle;
 }

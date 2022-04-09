@@ -36,14 +36,43 @@ const gameboard = (() => {
     return { displayBoard, board };
 })();
 
-// displayController object module
-const displayController = (() => {
-    
-
-})();
 
 // Factory function for Player
 const Player = (name, marker) => {
-
-
+    // updates array and displays updated board 
+    const selectSquare = () => {
+        for (let i=0; i<gameboard.board.length; i++) {
+            document.addEventListener('click', function(e) {
+                if (e.target.matches(`#s${i}`)) {
+                    gameboard.board[i] = marker;
+                    gameboard.displayBoard();
+                }
+            }, false)
+        }
+    };
+    return {  };
 };
+
+const john = Player('john', 'X');
+john.selectSquare();
+// const doe = Player('doe', 'O');
+// doe.selectSquare();
+
+// tie name value to value inputed in start game menu modal
+
+
+// displayController object module
+const displayController = ((player1, player2) => {
+    const startGame = () => {
+
+    }
+
+    const takeTurn = () => {
+        if (gameboard.board.filter(selected => selected.length )) {
+            player1.selectSquare();
+        } else {
+            player2.selectSquare();
+        }
+    }
+
+})();
