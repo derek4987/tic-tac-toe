@@ -1,0 +1,33 @@
+:root {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* board grid */
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 125px);
+    grid-template-rows: repeat(3, 125px);
+    justify-content: center;
+    margin: 100px auto;
+    width: min-content;
+    height: min-content;
+    outline: 2px solid white;
+}
+
+.square {
+    font-size: 4rem;
+    outline: 2px solid black;
+    display: table;
+}
+
+.square > div {
+    display: table-cell;
+    padding-bottom: 7px;
+    text-align: center;
+    vertical-align: middle;
+}
