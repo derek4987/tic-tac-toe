@@ -1,6 +1,7 @@
 // Gameboard object module
 const gameboard = (() => {
     let board = Array(9).fill('');
+    let totalTurns = 0;
     const displayBoard = () => {
         const boardGrid = document.querySelector('#board');
         boardGrid.innerHTML = `
@@ -33,11 +34,11 @@ const gameboard = (() => {
             </div>
         `;
     }
-    return { displayBoard, board };
+    return { displayBoard, board, totalTurns };
 })();
 
 
-// Factory function for Player
+// Factory function for Player. Auto assign player1 as 'X' and player2 as 'O';
 const Player = (name, marker) => {
     // updates array and displays updated board 
     const selectSquare = () => {
@@ -46,33 +47,76 @@ const Player = (name, marker) => {
                 if (e.target.matches(`#s${i}`)) {
                     gameboard.board[i] = marker;
                     gameboard.displayBoard();
+                    gameboard.totalTurns += 1;
                 }
             }, false)
         }
     };
-    return {  };
+    return { selectSquare };
 };
 
+
 const john = Player('john', 'X');
-john.selectSquare();
-// const doe = Player('doe', 'O');
+// john.selectSquare();
+const doe = Player('doe', 'O');
 // doe.selectSquare();
 
-// tie name value to value inputed in start game menu modal
+
+// playgame factory function
+// const Players = (player1, player2) => {
+//     const takeTurn = () => {
+//         if (gameboard.totalSquaresSelected % 2 === 0) {
+//             player1.selectSquare();
+//         } else if (gameboard.totalSquaresSelected % 2 === 1) {
+//             player2.selectSquare();
+//         } else if (gameboard.totalSquaresSelected === 9) {
+//             return
+//         } else return;
+//     }
+//     return { takeTurn }
+// };
+
+const playGame = (() => {
+    const takeTurn = (player1, player2) => {
+        console.log(gameboard.totalTurns);
+        if (gameboard.totalTurns % 2 === 0) {
+            player1.selectSquare();
+        } else if (gameboard.totalTurns % 2 === 1) {
+            player2.selectSquare();
+        } else if (gameboard.totalTurns >= 9) {
+            return
+        } else return;
+    }
+    return { takeTurn }
+})()
+
+// const players = Players(john, doe);
+// players.takeTurn();
+
+playGame.takeTurn(john,doe);
+
+// document.addEventListener('click', function(e) {
+//     if (e.target.matches('#board')) {
+//         let totalSquaresSelected = gameboard.board.filter(e => e != '').length
+//         if (totalSquaresSelected % 2 === 0) {
+//             john.selectSquare();
+//         } else {
+//             doe.selectSquare();
+//         }
+//         // players.takeTurn();
+//         console.log('click')
+//     }
+// }, false)
 
 
 // displayController object module
-const displayController = ((player1, player2) => {
+const displayController = (() => {
     const startGame = () => {
 
     }
 
-    const takeTurn = () => {
-        if (gameboard.board.filter(selected => selected.length )) {
-            player1.selectSquare();
-        } else {
-            player2.selectSquare();
-        }
-    }
-
+    
+    return { };
 })();
+
+// tie name value to value inputed in start game menu modal
