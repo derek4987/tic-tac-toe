@@ -97,40 +97,52 @@ const playGame = (() => {
         document.addEventListener('click', function(e) {
             for (let i=0; i<gameboard.board.length; i++) {
                 if (e.target.matches(`#s${i}`)) {
-                    if (e.target.textContent === '') {
-                        if (gameboard.totalTurns % 2 === 0 && gameboard.totalTurns < 9) {
-                            gameboard.board[i] = player1.marker;                        
-                        } else if (gameboard.totalTurns % 2 === 1 && gameboard.totalTurns < 9) {
-                            gameboard.board[i] = player2.marker;
-                        } else if (gameboard.totalTurns >= 9) {
-                            return;
+                    // prevents additional moves if checkWinner returns true
+                    if (checkWinner() === true) {
+                        return
+                    } else {
+                        if (e.target.textContent === '') {
+                            // even total number of turns, 'X' makes move, odd 'O' makes move
+                            if (gameboard.totalTurns % 2 === 0 && gameboard.totalTurns < 9) {
+                                gameboard.board[i] = player1.marker;                        
+                            } else if (gameboard.totalTurns % 2 === 1 && gameboard.totalTurns < 9) {
+                                gameboard.board[i] = player2.marker;
+                            } else if (gameboard.totalTurns >= 9) {
+                                return;
+                            } else return;
+                            gameboard.displayBoard();
+                            if (gameboard.totalTurns < 9) {
+                            gameboard.totalTurns += 1; 
+                            }
                         } else return;
-                        gameboard.displayBoard();
-                        if (gameboard.totalTurns < 9) {
-                        gameboard.totalTurns += 1; 
-                        }
-                    } else return;
-                    console.log(gameboard.totalTurns);
-                }
+                        console.log(gameboard.totalTurns);
+                        checkWinner();
+                    }
+                }                
             }
         }, false)
-        checkWinner();
     }
 
     const checkWinner = () => {
         const board = gameboard.board;
+        // check if all values in array are equal
+        const allEqual = arr => arr.every(val => val === arr[0]);
+        if (allEqual)
         if (
-            board[0] && board[1] && board[2] === ('X') ||
-            board[3] && board[4] && board[5] === ('X' || 'O') ||
-            board[6] && board[7] && board[8] === ('X' || 'O') ||
-            board[0] && board[3] && board[6] === ('X' || 'O') ||
-            board[1] && board[4] && board[7] === ('X' || 'O') ||
-            board[2] && board[5] && board[8] === ('X' || 'O') ||
-            board[0] && board[4] && board[8] === ('X' || 'O') ||
-            board[2] && board[4] && board[6] === ('X' || 'O')
+            // Winning combinations where value is not ''
+            allEqual([board[0], board[1], board[2]]) === true && board[0] !== '' ||
+            allEqual([board[3], board[4], board[5]]) === true && board[3] !== '' ||
+            allEqual([board[6], board[7], board[8]]) === true && board[6] !== '' ||
+            allEqual([board[0], board[3], board[6]]) === true && board[0] !== '' ||
+            allEqual([board[1], board[4], board[7]]) === true && board[1] !== '' ||
+            allEqual([board[2], board[5], board[8]]) === true && board[2] !== '' ||
+            allEqual([board[0], board[4], board[8]]) === true && board[0] !== '' ||
+            allEqual([board[2], board[4], board[6]]) === true && board[2] !== ''
         ) {
-            console.log('Winner')
-        }
+            // open congrats message to winner and stop other inputs
+            console.log('Winner');
+            return true;
+        } else return false
     }
 
     return { takeTurn }
