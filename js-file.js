@@ -1,6 +1,7 @@
 // Gameboard object module
 const gameboard = (() => {
     let board = Array(9).fill('');
+    // variable used to alternate turns, start game at 0 for player 1 to go first and 1 for player 2
     let totalTurns = 0;
     const displayBoard = () => {
         const boardGrid = document.querySelector('#board');
@@ -102,16 +103,19 @@ const playGame = (() => {
                         return
                     } else {
                         if (e.target.textContent === '') {
+                            const squaresSelected = gameboard.board.filter(e => e != '').length;
                             // even total number of turns, 'X' makes move, odd 'O' makes move
-                            if (gameboard.totalTurns % 2 === 0 && gameboard.totalTurns < 9) {
-                                gameboard.board[i] = player1.marker;                        
-                            } else if (gameboard.totalTurns % 2 === 1 && gameboard.totalTurns < 9) {
+                            if (gameboard.totalTurns % 2 === 0 && squaresSelected < 9) {
+                                gameboard.board[i] = player1.marker;  
+                                displayController.p2TurnArrow();                     
+                            } else if (gameboard.totalTurns % 2 === 1 && squaresSelected < 9) {
                                 gameboard.board[i] = player2.marker;
-                            } else if (gameboard.totalTurns >= 9) {
+                                displayController.p1TurnArrow();
+                            } else if (squaresSelected >= 9) {
                                 return;
                             } else return;
                             gameboard.displayBoard();
-                            if (gameboard.totalTurns < 9) {
+                            if (squaresSelected < 9) {
                             gameboard.totalTurns += 1; 
                             }
                         } else return;
@@ -127,7 +131,6 @@ const playGame = (() => {
         const board = gameboard.board;
         // check if all values in array are equal
         const allEqual = arr => arr.every(val => val === arr[0]);
-        if (allEqual)
         if (
             // Winning combinations where value is not ''
             allEqual([board[0], board[1], board[2]]) === true && board[0] !== '' ||
@@ -141,6 +144,8 @@ const playGame = (() => {
         ) {
             // open congrats message to winner and stop other inputs
             console.log('Winner');
+            displayController.p1p2ArrowGrayed();
+            displayController.addScore();
             return true;
         } else if (
             // checks for tie
@@ -155,7 +160,9 @@ const playGame = (() => {
                 allEqual([board[2], board[4], board[6]]) === false
             )
         ) {
-            console.log('Tie')
+            console.log('Tie');
+            displayController.p1p2ArrowGrayed();
+            displayController.addScore();
         } else return false
     }
 
@@ -183,12 +190,63 @@ playGame.takeTurn(john,doe);
 
 // displayController object module
 const displayController = (() => {
-    const startGame = () => {
+    let p1Score = 0;
+    let p2Score = 0;
+    let ties = 0;
 
+    const startGame = () => {
+        // modal open to start game and choose your player
     }
 
+    const p1TurnArrow = () => {
+        document.querySelector('.p1Arrow').classList.remove('arrowGrayedOut');
+        document.querySelector('.p2Arrow').classList.add('arrowGrayedOut');
+    }
+
+    const p2TurnArrow = () => {
+        document.querySelector('.p1Arrow').classList.add('arrowGrayedOut');
+        document.querySelector('.p2Arrow').classList.remove('arrowGrayedOut');
+    }
+
+    const p1p2ArrowGrayed = () => {
+        document.querySelector('.p1Arrow').classList.add('arrowGrayedOut');
+        document.querySelector('.p2Arrow').classList.add('arrowGrayedOut');
+    }
+
+    const addScore = () => {
+        const board = gameboard.board;
+        if (
+            // Winning combinations where value is not ''
+            ([board[0], board[1], board[2]] === ['X','X','X']) ||
+            ([board[3], board[4], board[5]] === ['X','X','X']) ||
+            ([board[6], board[7], board[8]] === ['X','X','X']) ||
+            ([board[0], board[3], board[6]] === ['X','X','X']) ||
+            ([board[1], board[4], board[7]] === ['X','X','X']) ||
+            ([board[2], board[5], board[8]] === ['X','X','X']) ||
+            ([board[0], board[4], board[8]] === ['X','X','X']) ||
+            ([board[2], board[4], board[6]] === ['X','X','X'])
+        ) {
+            p1Score += 1;
+            document.querySelector('#p1Score').textContent = p1Score;
+        } else if (
+            [board[0], board[1], board[2]] === ['O','O','O'] ||
+            [board[3], board[4], board[5]] === ['O','O','O'] ||
+            [board[6], board[7], board[8]] === ['O','O','O'] ||
+            [board[0], board[3], board[6]] === ['O','O','O'] ||
+            [board[1], board[4], board[7]] === ['O','O','O'] ||
+            [board[2], board[5], board[8]] === ['O','O','O'] ||
+            [board[0], board[4], board[8]] === ['O','O','O'] ||
+            [board[2], board[4], board[6]] === ['O','O','O']
+        ) {
+            p2Score +=1;
+            document.querySelector('#p2Score').textContent = p2Score;
+        } else {
+            ties += 1;
+            document.querySelector('#totalTies').textContent = ties;
+        }
+    }
     
-    return { };
+    return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore };
 })();
 
 // tie name value to value inputed in start game menu modal

@@ -81,6 +81,17 @@ html {
     color: black;
 }
 
+/* Nav svgs */
+.p1Arrow {
+    height: 40px;
+    transform: rotate(270deg);
+}
+
+.p2Arrow {
+    height: 40px;
+    transform: rotate(90deg);
+}
+
 /* buttons secton */
 #buttons {
     display: flex;
@@ -118,4 +129,9 @@ html {
 
 #restart-button {
     font-size: 1.2rem;
+}
+
+/* Classes to add from js */
+.arrowGrayedOut {
+    opacity: 0.1;
 }
