@@ -7,21 +7,32 @@
     padding: 0;
 }
 
+html {
+    background-color: rgb(235, 231, 231);
+}
+
+/* overall page grid */
+#grid {
+    display: grid;
+    grid-template-rows: 175px 1fr 150px;
+}
+
 /* board grid */
 #board {
+    grid-row: 2 / 3;
     display: grid;
-    grid-template-columns: repeat(3, 125px);
-    grid-template-rows: repeat(3, 125px);
+    grid-template-columns: repeat(3, 175px);
+    grid-template-rows: repeat(3, 175px);
     justify-content: center;
-    margin: 100px auto;
+    margin: 20px auto;
     width: min-content;
     height: min-content;
-    outline: 2px solid white;
+    outline: 3px solid rgb(235, 231, 231);
 }
 
 .square {
-    font-size: 4rem;
-    outline: 2px solid black;
+    font-size: 7rem;
+    outline: 3px solid black;
     display: table;
 }
 
@@ -29,4 +40,82 @@
     display: table-cell;
     text-align: center;
     vertical-align: middle;
+}
+
+.s {
+    color: rgb(100, 100, 73);
+}
+
+/* Nav / scores content */
+#nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#nav-bar > .content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    min-width: 450px;
+    max-width: 1000px;
+}
+
+.scores-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.name {
+    font-size: 2rem;
+    font-weight: 600;
+    color: black;
+    border-bottom: 1px solid black;
+}
+
+.score {
+    font-size: 1.8rem;
+    color: black;
+}
+
+/* buttons secton */
+#buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 40px;
+}
+
+#buttons > .content-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
+    min-width: 450px;
+    max-width: 1000px;
+    
+}
+
+#restart-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.restart {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+
+.restart img {
+    height: 50px;
+    margin-top: 5px;
+}
+
+#restart-button {
+    font-size: 1.2rem;
 }

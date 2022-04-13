@@ -142,6 +142,20 @@ const playGame = (() => {
             // open congrats message to winner and stop other inputs
             console.log('Winner');
             return true;
+        } else if (
+            // checks for tie
+            board.filter(e => e != '').length === 9 && (
+                allEqual([board[0], board[1], board[2]]) === false ||
+                allEqual([board[3], board[4], board[5]]) === false ||
+                allEqual([board[6], board[7], board[8]]) === false ||
+                allEqual([board[0], board[3], board[6]]) === false ||
+                allEqual([board[1], board[4], board[7]]) === false ||
+                allEqual([board[2], board[5], board[8]]) === false ||
+                allEqual([board[0], board[4], board[8]]) === false ||
+                allEqual([board[2], board[4], board[6]]) === false
+            )
+        ) {
+            console.log('Tie')
         } else return false
     }
 
