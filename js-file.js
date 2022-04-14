@@ -1,3 +1,5 @@
+
+
 // Gameboard object module
 const gameboard = (() => {
     let board = Array(9).fill('');
@@ -38,7 +40,6 @@ const gameboard = (() => {
     return { displayBoard, board, totalTurns };
 })();
 
-
 // Factory function for Player. Auto assign player1 as 'X' and player2 as 'O';
 const Player = (name, marker) => {
     // updates array and displays updated board
@@ -58,49 +59,17 @@ const Player = (name, marker) => {
     return { selectSquare, marker };
 };
 
-
-const john = Player('john', 'X');
-// john.selectSquare();
-const doe = Player('doe', 'O');
-// doe.selectSquare();
-
-
-// playgame factory function
-// const Players = (player1, player2) => {
-//     const takeTurn = () => {
-//         if (gameboard.totalSquaresSelected % 2 === 0) {
-//             player1.selectSquare();
-//         } else if (gameboard.totalSquaresSelected % 2 === 1) {
-//             player2.selectSquare();
-//         } else if (gameboard.totalSquaresSelected === 9) {
-//             return
-//         } else return;
-//     }
-//     return { takeTurn }
-// };
-
-// const playGame = (() => {
-//     const takeTurn = (player1, player2) => {
-//         console.log(gameboard.totalTurns);
-//         if (gameboard.totalTurns % 2 === 0) {
-//             player1.selectSquare();
-//         } else if (gameboard.totalTurns % 2 === 1) {
-//             player2.selectSquare();
-//         } else if (gameboard.totalTurns >= 9) {
-//             return
-//         } else return;
-//     }
-//     return { takeTurn }
-// })()
-
 const playGame = (() => {
+    // variable to turn of event listener if game has winner;
+    let isTrue = false;
+
     const takeTurn = (player1, player2) => {
         document.addEventListener('click', function(e) {
             for (let i=0; i<gameboard.board.length; i++) {
                 if (e.target.matches(`#s${i}`)) {
                     // prevents additional moves if checkWinner returns true
-                    if (checkWinner() === true) {
-                        return
+                    if (isTrue === true) {
+                        return;
                     } else {
                         if (e.target.textContent === '') {
                             const squaresSelected = gameboard.board.filter(e => e != '').length;
@@ -146,7 +115,8 @@ const playGame = (() => {
             console.log('Winner');
             displayController.p1p2ArrowGrayed();
             displayController.addScore();
-            return true;
+            isTrue = true;
+            return true, isTrue;
         } else if (
             // checks for tie
             board.filter(e => e != '').length === 9 && (
@@ -166,27 +136,8 @@ const playGame = (() => {
         } else return false
     }
 
-    return { takeTurn }
+    return { takeTurn, isTrue }
 })()
-
-// const players = Players(john, doe);
-// players.takeTurn();
-
-playGame.takeTurn(john,doe);
-
-// document.addEventListener('click', function(e) {
-//     if (e.target.matches('#board')) {
-//         let totalSquaresSelected = gameboard.board.filter(e => e != '').length
-//         if (totalSquaresSelected % 2 === 0) {
-//             john.selectSquare();
-//         } else {
-//             doe.selectSquare();
-//         }
-//         // players.takeTurn();
-//         console.log('click')
-//     }
-// }, false)
-
 
 // displayController object module
 const displayController = (() => {
@@ -215,28 +166,29 @@ const displayController = (() => {
 
     const addScore = () => {
         const board = gameboard.board;
+        const allEqual = arr => arr.every(val => val === arr[0]);
         if (
             // Winning combinations where value is not ''
-            ([board[0], board[1], board[2]] === ['X','X','X']) ||
-            ([board[3], board[4], board[5]] === ['X','X','X']) ||
-            ([board[6], board[7], board[8]] === ['X','X','X']) ||
-            ([board[0], board[3], board[6]] === ['X','X','X']) ||
-            ([board[1], board[4], board[7]] === ['X','X','X']) ||
-            ([board[2], board[5], board[8]] === ['X','X','X']) ||
-            ([board[0], board[4], board[8]] === ['X','X','X']) ||
-            ([board[2], board[4], board[6]] === ['X','X','X'])
+            allEqual([board[0], board[1], board[2]]) === true && board[0] === 'X' ||
+            allEqual([board[3], board[4], board[5]]) === true && board[3] === 'X' ||
+            allEqual([board[6], board[7], board[8]]) === true && board[6] === 'X' ||
+            allEqual([board[0], board[3], board[6]]) === true && board[0] === 'X' ||
+            allEqual([board[1], board[4], board[7]]) === true && board[1] === 'X' ||
+            allEqual([board[2], board[5], board[8]]) === true && board[2] === 'X' ||
+            allEqual([board[0], board[4], board[8]]) === true && board[0] === 'X' ||
+            allEqual([board[2], board[4], board[6]]) === true && board[2] === 'X'
         ) {
             p1Score += 1;
             document.querySelector('#p1Score').textContent = p1Score;
         } else if (
-            [board[0], board[1], board[2]] === ['O','O','O'] ||
-            [board[3], board[4], board[5]] === ['O','O','O'] ||
-            [board[6], board[7], board[8]] === ['O','O','O'] ||
-            [board[0], board[3], board[6]] === ['O','O','O'] ||
-            [board[1], board[4], board[7]] === ['O','O','O'] ||
-            [board[2], board[5], board[8]] === ['O','O','O'] ||
-            [board[0], board[4], board[8]] === ['O','O','O'] ||
-            [board[2], board[4], board[6]] === ['O','O','O']
+            allEqual([board[0], board[1], board[2]]) === true && board[0] === 'O' ||
+            allEqual([board[3], board[4], board[5]]) === true && board[3] === 'O' ||
+            allEqual([board[6], board[7], board[8]]) === true && board[6] === 'O' ||
+            allEqual([board[0], board[3], board[6]]) === true && board[0] === 'O' ||
+            allEqual([board[1], board[4], board[7]]) === true && board[1] === 'O' ||
+            allEqual([board[2], board[5], board[8]]) === true && board[2] === 'O' ||
+            allEqual([board[0], board[4], board[8]]) === true && board[0] === 'O' ||
+            allEqual([board[2], board[4], board[6]]) === true && board[2] === 'O'
         ) {
             p2Score +=1;
             document.querySelector('#p2Score').textContent = p2Score;
@@ -245,8 +197,33 @@ const displayController = (() => {
             document.querySelector('#totalTies').textContent = ties;
         }
     }
+
+    const restartButton = () => {
+        // resets points, clears board, and sets totalTurns variable to 0, isTrue to false
+        p1Score = p2Score = ties = 0;
+        document.querySelector('#p1Score').textContent = 0;
+        document.querySelector('#p2Score').textContent = 0;
+        document.querySelector('#totalTies').textContent = 0;
+
+        gameboard.board = Array(9).fill('');
+        gameboard.displayBoard();
+
+        gameboard.totalTurns = 0;
+
+        playGame.isTrue = false;
+
+        p1TurnArrow();
+    }
     
-    return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore };
+    return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton };
 })();
 
 // tie name value to value inputed in start game menu modal
+
+
+const john = Player('john', 'X');
+const doe = Player('doe', 'O');
+playGame.takeTurn(john,doe);
+document.querySelector('.restart').addEventListener('click', function(e) {
+    displayController.restartButton();
+})
