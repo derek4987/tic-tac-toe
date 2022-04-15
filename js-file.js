@@ -183,7 +183,7 @@ const displayController = (() => {
         ) {
             p1Score += 1;
             document.querySelector('#p1Score').textContent = p1Score;
-            winner += 1;
+            winner += 1; // winner vaule of 1 gives point to player X
         } else if (
             allEqual([board[0], board[1], board[2]]) === true && board[0] === 'O' ||
             allEqual([board[3], board[4], board[5]]) === true && board[3] === 'O' ||
@@ -196,7 +196,7 @@ const displayController = (() => {
         ) {
             p2Score +=1;
             document.querySelector('#p2Score').textContent = p2Score;
-            winner -= 1
+            winner -= 1 // winner value of -1 gives point to player O
         } else {
             ties += 1;
             document.querySelector('#totalTies').textContent = ties;
@@ -236,8 +236,19 @@ const displayController = (() => {
         winner = 0;
         console.log(winner);
     }
+
+    const continueButton = () => {
+        document.querySelector('#gameOverModal').classList.remove('modal-open');
+        for (let i=0; i<gameboard.board.length; i++) {
+            gameboard.board[i] = '';
+        };
+        gameboard.displayBoard();
+        gameboard.totalTurns = 0;
+        playGame.isTrue = false;
+        p1TurnArrow();
+    }
     
-    return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton };
+    return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton, continueButton };
 })();
 
 // tie name value to value inputed in start game menu modal
@@ -246,6 +257,20 @@ const displayController = (() => {
 const john = Player('john', 'X');
 const doe = Player('doe', 'O');
 playGame.takeTurn(john,doe);
-document.querySelector('.restart').addEventListener('click', function(e) {
-    displayController.restartButton();
-})
+
+// Buttons event delegator
+document.addEventListener('click', function(e) {
+    // restart button
+    if (e.target.matches('.restart') || e.target.matches('.rb-img')) {
+        displayController.restartButton();
+    }
+
+    // continue button
+    if (e.target.matches('#go-continue')) {
+        displayController.continueButton();
+    }
+
+}, false);
+// document.querySelector('.restart').addEventListener('click', function(e) {
+//     displayController.restartButton();
+// })
