@@ -135,3 +135,47 @@ html {
 .arrowGrayedOut {
     opacity: 0.1;
 }
+
+/* modal content */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -65%);
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+.modal.modal-open {
+    display: block;
+}
+
+/* gameOverModal */
+#gameOverModal {
+    font-size: 4rem;
+    height: 160px;
+    min-width: fit-content;
+    padding: 20px 40px;
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.go-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.go-buttons button {
+    font-size: 1.2rem;
+    width: 110px;
+    height: 60px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 2px solid rgb(100, 100, 73);
+}
+
+.go-buttons button:hover {
+    background-color: rgba(100, 100, 73, 0.651);
+}

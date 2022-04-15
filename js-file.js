@@ -56,7 +56,7 @@ const Player = (name, marker) => {
         //     }, false)
         // }
     };
-    return { selectSquare, marker };
+    return { selectSquare, marker, name };
 };
 
 const playGame = (() => {
@@ -200,19 +200,24 @@ const displayController = (() => {
 
     const restartButton = () => {
         // resets points, clears board, and sets totalTurns variable to 0, isTrue to false
-        p1Score = p2Score = ties = 0;
-        document.querySelector('#p1Score').textContent = 0;
-        document.querySelector('#p2Score').textContent = 0;
-        document.querySelector('#totalTies').textContent = 0;
+        // p1Score = p2Score = ties = 0;
+        // document.querySelector('#p1Score').textContent = 0;
+        // document.querySelector('#p2Score').textContent = 0;
+        // document.querySelector('#totalTies').textContent = 0;
 
-        gameboard.board = Array(9).fill('');
-        gameboard.displayBoard();
+        // gameboard.board = Array(9).fill('');
+        // gameboard.displayBoard();
 
-        gameboard.totalTurns = 0;
+        // gameboard.totalTurns = 0;
 
-        playGame.isTrue = false;
+        // playGame.isTrue = false;
 
-        p1TurnArrow();
+        // p1TurnArrow();
+        window.location.reload();
+    }
+
+    const gameOverModal = () => {
+        
     }
     
     return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton };
