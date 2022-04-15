@@ -156,9 +156,10 @@ html {
 #gameOverModal {
     font-size: 4rem;
     height: 160px;
-    min-width: fit-content;
+    min-width: 400px;
     padding: 20px 40px;
     background-color: rgba(255, 255, 255, 0.95);
+    text-align: center;
 }
 
 .go-buttons {

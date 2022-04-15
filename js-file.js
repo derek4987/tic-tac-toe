@@ -144,6 +144,9 @@ const displayController = (() => {
     let p1Score = 0;
     let p2Score = 0;
     let ties = 0;
+    /* winner is variable that shows winner of each round. This value is used to
+    add the players name to the message of gameOverModal +1 X, -1 O, 0 for tie */
+    let winner = 0;
 
     const startGame = () => {
         // modal open to start game and choose your player
@@ -180,6 +183,7 @@ const displayController = (() => {
         ) {
             p1Score += 1;
             document.querySelector('#p1Score').textContent = p1Score;
+            winner += 1;
         } else if (
             allEqual([board[0], board[1], board[2]]) === true && board[0] === 'O' ||
             allEqual([board[3], board[4], board[5]]) === true && board[3] === 'O' ||
@@ -192,10 +196,12 @@ const displayController = (() => {
         ) {
             p2Score +=1;
             document.querySelector('#p2Score').textContent = p2Score;
+            winner -= 1
         } else {
             ties += 1;
             document.querySelector('#totalTies').textContent = ties;
         }
+        gameOverModal();
     }
 
     const restartButton = () => {
@@ -217,7 +223,18 @@ const displayController = (() => {
     }
 
     const gameOverModal = () => {
-        
+        document.querySelector('#gameOverModal').classList.add('modal-open');
+        if (winner === 1) {
+            document.querySelector('.message').textContent = 'Player 1 Wins';
+            console.log(winner)
+        } else if (winner === -1) {
+            document.querySelector('.message').textContent = 'Player 2 Wins';
+            console.log(winner)
+        } else {
+            document.querySelector('.message').textContent = "It's a tie"
+        }
+        winner = 0;
+        console.log(winner);
     }
     
     return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton };
