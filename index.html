@@ -67,8 +67,30 @@
             </div>
         </div>
     </div>
-    <div id="startModal" class="modal">
-
+    <div id="startModal" class="modal modal-open">
+        <div class="modal-content">
+            <div class="startModal-sect1">
+                <div class="p1info">
+                    <label for="player1">Player 1:</label>
+                    <input type="text" id="player1" value="Player 1">
+                </div>
+            </div>
+            <div class="startModal-sect2">
+                <div class="p2info">
+                    <label for="player2">Player 2:</label>
+                    <input type="text" id="player2" value="Player 2">
+                </div>
+                <div class="computer">
+                    <input type="radio" id="playComputer" name="selectOpponent" checked>
+                    <label for="playComputer"> vs Computer</label>
+                </div>
+                <div class="humanOpponent">
+                    <input type="radio" id="playPerson" name="selectOpponent">
+                    <label for="playPerson">2 Player</label>
+                </div>
+            </div>
+            <button id="playButton">Play</button>
+        </div>
     </div>
     <div id="gameOverModal" class="modal">
         <div class="message">Player 1 Wins</div>
