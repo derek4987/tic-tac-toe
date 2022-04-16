@@ -13,7 +13,7 @@
         <div id="nav-bar">
             <div class="content-container">
                 <div id="player1" class="scores-heading">
-                    <div class="name">Player 1</div>
+                    <div class="name p1name">Player 1</div>
                     <div class="score" id="p1Score">0</div>
                 </div>
                 <img src="./svgs/turn-arrow.svg" alt="arrow" class="p1Arrow">
@@ -23,7 +23,7 @@
                 </div>
                 <img src="./svgs/turn-arrow.svg" alt="arrow" class="p2Arrow">
                 <div id="player2" class="scores-heading">
-                    <div class="name">Player 2</div>
+                    <div class="name p2name">Player 2</div>
                     <div class="score" id="p2Score">0</div>
                 </div>
             </div>
@@ -71,14 +71,14 @@
         <div class="modal-content">
             <div class="startModal-sect1">
                 <div class="p1info">
-                    <label for="player1">Player 1:</label>
-                    <input type="text" id="player1" value="Player 1">
+                    <label for="p1info">Player 1:</label>
+                    <input type="text" name="player1" id="p1info" value="Player 1">
                 </div>
             </div>
             <div class="startModal-sect2">
                 <div class="p2info">
-                    <label for="player2">Player 2:</label>
-                    <input type="text" id="player2" value="Player 2">
+                    <label for="p2info">Player 2:</label>
+                    <input type="text" name="player2" id="p2info" value="Player 2">
                 </div>
                 <div class="computer">
                     <input type="radio" id="playComputer" name="selectOpponent" checked>

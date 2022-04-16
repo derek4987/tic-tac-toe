@@ -45,18 +45,7 @@ const Player = (name, marker) => {
     // updates array and displays updated board
     // DOM query selectors to assign name and marker to player
     // change Player to a constructor possibly ??
-    const selectSquare = () => {
-        // for (let i=0; i<gameboard.board.length; i++) {
-        //     document.addEventListener('click', function(e) {
-        //         if (e.target.matches(`#s${i}`)) {
-        //             gameboard.board[i] = marker;
-        //             gameboard.displayBoard();
-        //             gameboard.totalTurns += 1;
-        //         }
-        //     }, false)
-        // }
-    };
-    return { selectSquare, marker, name };
+    return { name, marker };
 };
 
 const playGame = (() => {
@@ -247,19 +236,48 @@ const displayController = (() => {
         playGame.isTrue = false;
         p1TurnArrow();
     }
+
+    const playButton = () => {
+        const p1info = document.querySelector('#p1info');
+        const p2info = document.querySelector('#p2info');
+        let p1value = p1info.value;
+        let p2value = p2info.value;
+        document.querySelector('.p1name').textContent = p1value;
+        document.querySelector('.p2name').textContent = p2value;
+        
+        const player1 = Player(p1value,'X');
+        const player2 = Player(p2value,'O');
+
+        playGame.takeTurn(player1,player2);
+        console.log(p1value,p2value);
+
+        document.querySelector('#startModal').classList.remove('modal-open');
+    }
     
-    return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton, continueButton };
+    return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton, continueButton, playButton };
 })();
 
 // tie name value to value inputed in start game menu modal
 
 
-const john = Player('john', 'X');
-const doe = Player('doe', 'O');
-playGame.takeTurn(john,doe);
+// const john = Player('john', 'X');
+// const doe = Player('doe', 'O');
+// playGame.takeTurn(john,doe);
+
+// document.querySelector('#playButton').addEventListener('click', function(e) {
+//     const p1info = document.querySelector('#p1info');
+//     const p2info = document.querySelector('#player2');
+//     let p1value = p1info.value;
+//     alert(p1value);
+// });
 
 // Buttons event delegator
 document.addEventListener('click', function(e) {
+    // start modal items
+    if (e.target.matches('#playButton')) {
+        displayController.playButton();
+    }
+
     // restart button
     if (e.target.matches('.restart') || e.target.matches('.rb-img')) {
         displayController.restartButton();
