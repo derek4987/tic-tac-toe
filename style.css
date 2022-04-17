@@ -70,10 +70,15 @@ html {
 }
 
 .name {
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 600;
     color: black;
     border-bottom: 1px solid black;
+}
+
+.name.p1name, .name.p2name {
+    width: 150px;
+    text-align: center;
 }
 
 .score {

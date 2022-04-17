@@ -137,6 +137,10 @@ const displayController = (() => {
     add the players name to the message of gameOverModal +1 X, -1 O, 0 for tie */
     let winner = 0;
 
+    // player 1 and 2 variables
+    let player1;
+    let player2;
+
     const startGame = () => {
         // modal open to start game and choose your player
     }
@@ -232,9 +236,16 @@ const displayController = (() => {
             gameboard.board[i] = '';
         };
         gameboard.displayBoard();
-        gameboard.totalTurns = 0;
         playGame.isTrue = false;
-        p1TurnArrow();
+        if ((p1Score + p2Score + ties) %2 === 0) {
+            p1TurnArrow();
+            // totalTurns set to 0 so that player X' goes first
+            gameboard.totalTurns = 0;
+        } else {
+            p2TurnArrow();
+            // totalTurns set to 1 so that player 'O' goes first 
+            gameboard.totalTurns = 1;
+        }
     }
 
     const playButton = () => {
@@ -242,13 +253,22 @@ const displayController = (() => {
         const p2info = document.querySelector('#p2info');
         let p1value = p1info.value;
         let p2value = p2info.value;
-        document.querySelector('.p1name').textContent = p1value;
-        document.querySelector('.p2name').textContent = p2value;
+        if (p1value === '' || p2value === '') {
+            return
+        } else {
+           document.querySelector('.p1name').textContent = p1value;
+            document.querySelector('.p2name').textContent = p2value; 
+        }
         
-        const player1 = Player(p1value,'X');
-        const player2 = Player(p2value,'O');
+        player1 = Player(p1value,'X');
+        player2 = Player(p2value,'O');
+        
+        if (document.getElementById('playPerson').checked === true) {
+           playGame.takeTurn(player1,player2); 
+        } // else { play vs computer }
 
-        playGame.takeTurn(player1,player2);
+        p1TurnArrow();
+        
         console.log(p1value,p2value);
 
         document.querySelector('#startModal').classList.remove('modal-open');
@@ -256,20 +276,6 @@ const displayController = (() => {
     
     return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton, continueButton, playButton };
 })();
-
-// tie name value to value inputed in start game menu modal
-
-
-// const john = Player('john', 'X');
-// const doe = Player('doe', 'O');
-// playGame.takeTurn(john,doe);
-
-// document.querySelector('#playButton').addEventListener('click', function(e) {
-//     const p1info = document.querySelector('#p1info');
-//     const p2info = document.querySelector('#player2');
-//     let p1value = p1info.value;
-//     alert(p1value);
-// });
 
 // Buttons event delegator
 document.addEventListener('click', function(e) {
