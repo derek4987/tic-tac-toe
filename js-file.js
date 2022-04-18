@@ -1,4 +1,12 @@
-
+// startModal starts out as open
+// playButton assigns startModal input data to each player and starts game playGame.takeTurn(player1,player2);
+// totalTurns variable dictates who goes first
+    // totalTurns starts at 0 and alternates between starting at 0 or 1
+    // if 0, player1 goes first, if 1 player 2 goes first
+// takeTurn() function
+    // isTrue variable determines whether player can select square,
+    // if isTrue is false players can select a square
+    // if winner or tie is called, isTrue is set to 'true' no square can be selected
 
 // Gameboard object module
 const gameboard = (() => {
@@ -42,9 +50,7 @@ const gameboard = (() => {
 
 // Factory function for Player. Auto assign player1 as 'X' and player2 as 'O';
 const Player = (name, marker) => {
-    // updates array and displays updated board
-    // DOM query selectors to assign name and marker to player
-    // change Player to a constructor possibly ??
+    
     return { name, marker };
 };
 
@@ -57,13 +63,9 @@ const playGame = (() => {
             for (let i=0; i<gameboard.board.length; i++) {
                 if (e.target.matches(`#s${i}`)) {
                     // prevents additional moves if checkWinner returns true
-                    if (isTrue === true) {
-                        // if continue is selected, runs continueButton func and makes isTrue = false
-                        document.querySelector('#go-continue').addEventListener('click',function(e){
-                            displayController.continueButton();
-                            isTrue = false;
-                        })
+                    if (isTrue === true) {                        
                         console.log('true');
+                        return;
                     } else {
                         if (e.target.textContent === '') {
                             const squaresSelected = gameboard.board.filter(e => e != '').length;
@@ -85,6 +87,11 @@ const playGame = (() => {
                         console.log(gameboard.totalTurns);
                         checkWinner();
                     }
+                    // event listener checks if continue button is selected, and makes isTrue = false
+                    document.querySelector('#go-continue').addEventListener('click',function(e){
+                        displayController.continueButton();
+                        isTrue = false;
+                    })
                 }                
             }
         }, false)
@@ -126,6 +133,7 @@ const playGame = (() => {
             console.log('Tie');
             displayController.p1p2ArrowGrayed();
             displayController.addScore();
+            isTrue = true;
         } else return
     }
 
@@ -203,19 +211,6 @@ const displayController = (() => {
 
     const restartButton = () => {
         // resets points, clears board, and sets totalTurns variable to 0, isTrue to false
-        // p1Score = p2Score = ties = 0;
-        // document.querySelector('#p1Score').textContent = 0;
-        // document.querySelector('#p2Score').textContent = 0;
-        // document.querySelector('#totalTies').textContent = 0;
-
-        // gameboard.board = Array(9).fill('');
-        // gameboard.displayBoard();
-
-        // gameboard.totalTurns = 0;
-
-        // playGame.isTrue = false;
-
-        // p1TurnArrow();
         window.location.reload();
     }
 
@@ -301,6 +296,3 @@ document.addEventListener('click', function(e) {
     }
 
 }, false);
-// document.querySelector('.restart').addEventListener('click', function(e) {
-//     displayController.restartButton();
-// })
