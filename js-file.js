@@ -72,7 +72,10 @@ const playGame = (() => {
                             // even total number of turns, 'X' makes move, odd 'O' makes move
                             if (gameboard.totalTurns % 2 === 0 && squaresSelected < 9) {
                                 gameboard.board[i] = player1.marker;  
-                                displayController.p2TurnArrow();                     
+                                displayController.p2TurnArrow();
+                                if (document.getElementById('playComputer').checked === true) {
+                                    aiPlay();    
+                                }                      
                             } else if (gameboard.totalTurns % 2 === 1 && squaresSelected < 9) {
                                 gameboard.board[i] = player2.marker;
                                 displayController.p1TurnArrow();
@@ -95,6 +98,12 @@ const playGame = (() => {
                 }                
             }
         }, false)
+    }
+
+    const aiPlay = () => {
+        console.log('aiplay');
+        // gameboard.board[1] = 'O'
+        gameboard.totalTurns +=1;
     }
 
     const checkWinner = () => {
@@ -137,7 +146,7 @@ const playGame = (() => {
         } else return
     }
 
-    return { takeTurn, isTrue }
+    return { takeTurn, isTrue, aiPlay }
 })()
 
 // displayController object module
@@ -217,10 +226,10 @@ const displayController = (() => {
     const gameOverModal = () => {
         document.querySelector('#gameOverModal').classList.add('modal-open');
         if (winner === 1) {
-            document.querySelector('.message').textContent = 'Player 1 Wins';
+            document.querySelector('.message').textContent = `${player1.name} Wins`;
             console.log(winner)
         } else if (winner === -1) {
-            document.querySelector('.message').textContent = 'Player 2 Wins';
+            document.querySelector('.message').textContent = `${player2.name} Wins`;
             console.log(winner)
         } else {
             document.querySelector('.message').textContent = "It's a tie"
@@ -259,13 +268,10 @@ const displayController = (() => {
             document.querySelector('.p2name').textContent = p2value; 
         }
         
-        player1 = Player(p1value,'X');
+        player1 = Player(p1value,'X'); // Player(name, marker)
         player2 = Player(p2value,'O');
         
-        if (document.getElementById('playPerson').checked === true) {
-           playGame.takeTurn(player1,player2); 
-        } // else { play vs computer }
-
+        playGame.takeTurn(player1,player2);
         p1TurnArrow();
         
         console.log(p1value,p2value);
@@ -273,7 +279,7 @@ const displayController = (() => {
         document.querySelector('#startModal').classList.remove('modal-open');
     }
     
-    return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton, continueButton, playButton };
+    return { p1TurnArrow, p2TurnArrow, p1p2ArrowGrayed, addScore, restartButton, continueButton, playButton, /*p1Score, p2Score, ties*/ };
 })();
 
 // Buttons event delegator
