@@ -58,7 +58,12 @@ const playGame = (() => {
                 if (e.target.matches(`#s${i}`)) {
                     // prevents additional moves if checkWinner returns true
                     if (isTrue === true) {
-                        return;
+                        // if continue is selected, runs continueButton func and makes isTrue = false
+                        document.querySelector('#go-continue').addEventListener('click',function(e){
+                            displayController.continueButton();
+                            isTrue = false;
+                        })
+                        console.log('true');
                     } else {
                         if (e.target.textContent === '') {
                             const squaresSelected = gameboard.board.filter(e => e != '').length;
@@ -105,7 +110,6 @@ const playGame = (() => {
             displayController.p1p2ArrowGrayed();
             displayController.addScore();
             isTrue = true;
-            return true, isTrue;
         } else if (
             // checks for tie
             board.filter(e => e != '').length === 9 && (
@@ -122,7 +126,7 @@ const playGame = (() => {
             console.log('Tie');
             displayController.p1p2ArrowGrayed();
             displayController.addScore();
-        } else return false
+        } else return
     }
 
     return { takeTurn, isTrue }
@@ -289,9 +293,11 @@ document.addEventListener('click', function(e) {
         displayController.restartButton();
     }
 
-    // continue button
-    if (e.target.matches('#go-continue')) {
-        displayController.continueButton();
+    // gameOver modal items
+    // continueButton function event listener is in takeTurn function
+    // changeMode button. does the same thing as restart
+    if (e.target.matches('#go-changeMode')) {
+        displayController.restartButton();
     }
 
 }, false);
