@@ -73,8 +73,15 @@ const playGame = (() => {
                             if (gameboard.totalTurns % 2 === 0 && squaresSelected < 9) {
                                 gameboard.board[i] = player1.marker;  
                                 displayController.p2TurnArrow();
+                                // for play vs computer. computer selects random square
                                 if (document.getElementById('playComputer').checked === true) {
-                                    aiPlay();    
+                                    checkWinner();
+                                    if (isTrue === false) {
+                                        aiPlay();
+                                    } else {
+                                        gameboard.displayBoard();
+                                        break;    
+                                    } 
                                 }                      
                             } else if (gameboard.totalTurns % 2 === 1 && squaresSelected < 9) {
                                 gameboard.board[i] = player2.marker;
@@ -101,9 +108,17 @@ const playGame = (() => {
     }
 
     const aiPlay = () => {
-        console.log('aiplay');
-        // gameboard.board[1] = 'O'
+        for (let i=0; i<100; i++) {
+            let randNumber = Math.floor(Math.random()*(gameboard.board.length));  
+            if (gameboard.board[randNumber] === '') {
+                gameboard.board[randNumber] = 'O';
+                break;
+            } else {
+                continue;
+            }
+        }
         gameboard.totalTurns +=1;
+        displayController.p1TurnArrow();
     }
 
     const checkWinner = () => {
@@ -253,6 +268,11 @@ const displayController = (() => {
             p2TurnArrow();
             // totalTurns set to 1 so that player 'O' goes first 
             gameboard.totalTurns = 1;
+            // for play vs computer when its the computers turn to go first
+            if (document.getElementById('playComputer').checked === true) {
+                playGame.aiPlay();
+                gameboard.displayBoard();
+            }
         }
     }
 
